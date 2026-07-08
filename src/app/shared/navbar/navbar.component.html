@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background-color: var(--oms-blue);" *ngIf="auth.isLoggedIn">
+  <div class="container-fluid px-3 px-md-4">
+    <a class="navbar-brand fw-bold" [routerLink]="auth.isAdmin ? '/admin/dashboard' : '/shop'">OMS</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="auth.isAdmin">
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/categories" routerLinkActive="active">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/products" routerLinkActive="active">Products</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/stock" routerLinkActive="active">Stock</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/orders" routerLinkActive="active">Orders</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/delivery" routerLinkActive="active">Delivery</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/issues" routerLinkActive="active">Support</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/admin/reports" routerLinkActive="active">Reports</a></li>
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="auth.isCustomer">
+        <li class="nav-item"><a class="nav-link" routerLink="/shop" routerLinkActive="active">Shop</a></li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cart" routerLinkActive="active">
+            Cart <span class="badge rounded-pill bg-warning text-dark" *ngIf="cartCount > 0">{{ cartCount }}</span>
+          </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" routerLink="/my-orders" routerLinkActive="active">My Orders</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/support" routerLinkActive="active">Support</a></li>
+      </ul>
+      <ul class="navbar-nav align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/notifications">
+            Notifications <span class="badge bg-danger" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <span class="nav-link">👤 {{ auth.currentUser?.username }}</span>
+        </li>
+        <li class="nav-item">
+          <button class="btn btn-outline-light btn-sm mt-1 mt-lg-0" (click)="logout()">Logout</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

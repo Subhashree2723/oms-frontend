@@ -1,0 +1,58 @@
+<app-public-navbar></app-public-navbar>
+
+<div class="container-fluid px-3 px-md-5 py-4">
+
+  <div class="hero-banner text-center mb-5">
+    <h1 class="display-5">Welcome to OMS</h1>
+    <p class="lead mb-4">Your one-stop shop for electronics, fashion, groceries and more —
+      book online, no payment required upfront.</p>
+    <button class="btn btn-oms-orange btn-lg px-5" routerLink="/login">Start Shopping</button>
+  </div>
+
+  <h2 class="section-title">Shop by Category</h2>
+
+  <!-- Top-level category tabs, Flipkart-style -->
+  <div class="category-tabs d-flex gap-2 gap-md-4 mb-4 overflow-auto pb-1">
+    <button type="button" class="tab-btn" *ngFor="let c of categories"
+            [class.active]="selected?.id === c.id" (click)="select(c)">
+      {{ c.name }}
+    </button>
+  </div>
+
+  <!-- Subcategory tile grid for the active top-level category -->
+  <div class="row g-3 mb-5" *ngIf="selected">
+    <div class="col-6 col-md-3 col-lg-2" *ngFor="let sc of selected.subCategories">
+      <div class="card category-card h-100" routerLink="/login">
+        <img [src]="sc.imageUrl | imageUrl" [alt]="sc.name">
+        <div class="category-name">{{ sc.name }}</div>
+      </div>
+    </div>
+    <div class="text-muted" *ngIf="!selected.subCategories?.length">
+      No subcategories yet for {{ selected.name }}.
+    </div>
+  </div>
+  <div class="text-muted mb-5" *ngIf="categories.length === 0">
+    Categories will appear here once the admin adds some.
+  </div>
+
+  <div class="row g-4 text-center">
+    <div class="col-md-4">
+      <div class="card p-4 h-100">
+        <h5>📦 Wide Selection</h5>
+        <p class="text-muted mb-0">Browse products across electronics, fashion, groceries, and home appliances.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-4 h-100">
+        <h5>💳 No Online Payment Needed</h5>
+        <p class="text-muted mb-0">Place your order online and pay on delivery — simple and secure.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card p-4 h-100">
+        <h5>🚚 Track Your Delivery</h5>
+        <p class="text-muted mb-0">Follow your order from confirmation to your doorstep.</p>
+      </div>
+    </div>
+  </div>
+</div>

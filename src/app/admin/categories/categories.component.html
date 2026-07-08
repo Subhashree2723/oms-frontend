@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <h3 class="mb-4">Category Management</h3>
+
+  <div class="card p-3 mb-4">
+    <h6>{{ editingId ? 'Edit Category' : 'Add New Category' }}</h6>
+    <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+    <div class="row g-2">
+      <div class="col-md-3">
+        <input class="form-control" placeholder="Name" [(ngModel)]="form.name">
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" placeholder="Description" [(ngModel)]="form.description">
+      </div>
+      <div class="col-md-3">
+        <select class="form-select" [(ngModel)]="form.parentId">
+          <option [ngValue]="null">Top-level category (shows in main nav)</option>
+          <option *ngFor="let p of topLevelOptions" [ngValue]="p.id">
+            Subcategory of: {{ p.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input class="form-control" type="file" accept="image/*" (change)="onFileSelected($event)">
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-oms-primary text-white w-100" (click)="save()">{{ editingId ? 'Update' : 'Add' }}</button>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-sm mt-2" style="width:120px" *ngIf="editingId" (click)="resetForm()">Cancel</button>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-3" *ngFor="let c of categories">
+      <div class="card h-100">
+        <img [src]="c.imageUrl | imageUrl" class="card-img-top" style="height:140px;object-fit:cover" [alt]="c.name">
+        <div class="card-body">
+          <h6 class="card-title mb-1">{{ c.name }}</h6>
+          <span class="badge bg-secondary mb-2" *ngIf="parentName(c)">Sub of {{ parentName(c) }}</span>
+          <span class="badge bg-primary mb-2" *ngIf="!c.parentId">Top-level</span>
+          <p class="card-text text-muted small">{{ c.description }}</p>
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="edit(c)">Edit</button>
+          <button class="btn btn-sm btn-outline-danger" (click)="delete(c.id!)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="text-muted" *ngIf="categories.length === 0">No categories yet — add one above.</div>
+  </div>
+</div>

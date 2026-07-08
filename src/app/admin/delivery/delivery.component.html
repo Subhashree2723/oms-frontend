@@ -1,0 +1,22 @@
+<div class="container-fluid">
+  <h3 class="mb-4">Delivery Management</h3>
+
+  <div class="table-responsive p-2">
+    <table class="table table-hover align-middle">
+      <thead><tr><th>Order</th><th>Address</th><th>Status</th><th>Delivered At</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let d of deliveries">
+          <td>{{ d.order?.orderNumber }}</td>
+          <td>{{ d.address }}</td>
+          <td>
+            <select class="form-select form-select-sm" [ngModel]="d.status" (ngModelChange)="updateStatus(d, $event)">
+              <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+            </select>
+          </td>
+          <td>{{ d.deliveryDate | date:'short' }}</td>
+          <td><input class="form-control form-control-sm" [(ngModel)]="d.trackingNotes"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

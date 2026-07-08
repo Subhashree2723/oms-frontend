@@ -1,0 +1,61 @@
+<div class="container-fluid px-3 px-md-4">
+
+  <div class="alert alert-success" *ngIf="addedMessage">{{ addedMessage }}</div>
+
+  <!-- Top-level category tabs -->
+  <h2 class="section-title">Shop by Category</h2>
+  <div class="category-tabs d-flex gap-2 gap-md-4 mb-3 overflow-auto pb-1">
+    <button type="button" class="tab-btn" *ngFor="let c of topCategories"
+            [class.active]="selectedTop?.id === c.id" (click)="selectTop(c)">
+      {{ c.name }}
+    </button>
+  </div>
+
+  <!-- Subcategory strip for the active top-level category -->
+  <div class="d-flex gap-3 mb-4 flex-wrap" *ngIf="selectedTop">
+    <div class="card category-card" style="width: 110px;"
+         *ngFor="let sc of selectedTop.subCategories"
+         [class.border]="categoryId === sc.id"
+         [style.border-color]="categoryId === sc.id ? 'var(--oms-blue)' : ''"
+         (click)="selectSubCategory(sc.id!)">
+      <img [src]="sc.imageUrl | imageUrl" [alt]="sc.name">
+      <div class="category-name">{{ sc.name }}</div>
+    </div>
+    <div class="text-muted" *ngIf="!selectedTop.subCategories?.length">No subcategories yet.</div>
+  </div>
+
+  <!-- Search bar -->
+  <div class="row g-2 mb-4">
+    <div class="col-md-8">
+      <input class="form-control" placeholder="Search products..." [(ngModel)]="keyword" (keyup.enter)="search()">
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-oms-primary text-white w-100" (click)="search()">Search</button>
+    </div>
+  </div>
+
+  <h2 class="section-title">{{ categoryId ? 'Products' : 'Recommended for You' }}</h2>
+  <div class="row g-3">
+    <div class="col-6 col-md-4 col-lg-3" *ngFor="let p of products">
+      <div class="card product-card h-100">
+        <img [src]="p.imageUrl | imageUrl" class="card-img-top" [alt]="p.name">
+        <div class="card-body d-flex flex-column">
+          <h6 class="card-title mb-1">{{ p.name }}</h6>
+          <p class="card-text text-muted small mb-1">{{ p.categoryName }}</p>
+          <p class="card-text small text-truncate mb-2">{{ p.description }}</p>
+          <div class="mt-auto">
+            <span class="text-price">₹{{ p.price }}</span>
+            <span class="text-muted small">+{{ p.gstPercent }}% GST</span>
+            <div class="small mt-1" [class.text-danger]="(p.stockQty || 0) === 0" [class.text-success]="(p.stockQty || 0) > 0">
+              {{ (p.stockQty || 0) > 0 ? 'In stock (' + p.stockQty + ')' : 'Out of stock' }}
+            </div>
+            <button class="btn btn-oms-orange mt-2 w-100" [disabled]="(p.stockQty || 0) === 0" (click)="addToCart(p)">
+              🛒 Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-muted" *ngIf="products.length === 0">No products found.</div>
+  </div>
+</div>

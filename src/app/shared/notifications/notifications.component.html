@@ -1,0 +1,17 @@
+<div class="container-fluid">
+  <h3 class="mb-4">Notification Center</h3>
+
+  <div class="list-group">
+    <div class="list-group-item" *ngFor="let n of notifications"
+         [class.list-group-item-light]="n.isRead"
+         (click)="markRead(n)">
+      <div class="d-flex justify-content-between">
+        <strong>{{ n.title }}</strong>
+        <span class="badge bg-primary" *ngIf="!n.isRead">New</span>
+      </div>
+      <div>{{ n.message }}</div>
+      <div class="text-muted small">{{ n.createdAt | date:'short' }}</div>
+    </div>
+    <div class="text-muted p-3" *ngIf="notifications.length === 0">No notifications yet.</div>
+  </div>
+</div>

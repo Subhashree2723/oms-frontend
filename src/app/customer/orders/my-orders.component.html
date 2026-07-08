@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <h3 class="mb-4">My Orders</h3>
+
+  <div class="table-responsive p-2">
+    <table class="table table-hover align-middle">
+      <thead><tr><th>Order #</th><th>Status</th><th>Grand Total</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let o of orders">
+          <td>{{ o.orderNumber }}</td>
+          <td><span class="badge bg-secondary">{{ o.status }}</span></td>
+          <td>₹{{ o.grandTotal }}</td>
+          <td>{{ o.orderDate | date:'short' }}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-secondary me-2" (click)="view(o)">View</button>
+            <button class="btn btn-sm btn-outline-primary" (click)="downloadInvoice(o)"
+                    [disabled]="o.status === 'PENDING'">Invoice</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-muted p-2" *ngIf="orders.length === 0">You haven't placed any orders yet.</div>
+  </div>
+
+  <div class="card p-3 mt-3" *ngIf="selected">
+    <h6>Order {{ selected.orderNumber }}</h6>
+    <table class="table table-sm">
+      <thead><tr><th>Product</th><th>Qty</th><th>Price</th><th>GST</th><th>Subtotal</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let i of selected.items">
+          <td>{{ i.productName }}</td>
+          <td>{{ i.quantity }}</td>
+          <td>₹{{ i.price }}</td>
+          <td>₹{{ i.gstAmount }}</td>
+          <td>₹{{ i.subtotal }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="delivery">
+      <h6>Delivery Tracking</h6>
+      <p>Status: <span class="badge bg-info">{{ delivery.status }}</span></p>
+      <p *ngIf="delivery.trackingNotes">Notes: {{ delivery.trackingNotes }}</p>
+    </div>
+  </div>
+</div>

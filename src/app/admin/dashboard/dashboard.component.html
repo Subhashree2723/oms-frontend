@@ -1,0 +1,51 @@
+<div class="container-fluid">
+  <h3 class="mb-4">Admin Dashboard</h3>
+
+  <div *ngIf="loading" class="text-muted">Loading summary...</div>
+
+  <div class="row g-3" *ngIf="!loading">
+    <div class="col-md-3">
+      <div class="card text-white bg-primary p-3">
+        <div class="fs-2">{{ summary.totalProducts }}</div>
+        <div>Products</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-success p-3">
+        <div class="fs-2">{{ summary.totalOrders }}</div>
+        <div>Orders</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-info p-3">
+        <div class="fs-2">{{ summary.totalCustomers }}</div>
+        <div>Customers</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-white bg-warning p-3">
+        <div class="fs-2">{{ summary.openIssues }}</div>
+        <div>Open Issues</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mt-1" *ngIf="!loading">
+    <div class="col-md-4">
+      <div class="card p-3">
+        <div class="fs-4">₹ {{ summary.totalRevenue | number:'1.2-2' }}</div>
+        <div class="text-muted">Revenue (Delivered Orders)</div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card p-3">
+        <h6>Orders by Status</h6>
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-secondary p-2" *ngFor="let key of statusKeys">
+            {{ key }}: {{ summary.ordersByStatus[key] }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

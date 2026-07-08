@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <h3 class="mb-4">Stock Management</h3>
+
+  <div class="card p-3 mb-4">
+    <h6>Adjust Stock</h6>
+    <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+    <div class="alert alert-success" *ngIf="message">{{ message }}</div>
+    <div class="row g-2">
+      <div class="col-md-4">
+        <select class="form-select" [(ngModel)]="form.productId">
+          <option [value]="0" disabled>Select Product</option>
+          <option *ngFor="let p of products" [value]="p.id">{{ p.name }} (current: {{ p.stockQty }})</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <select class="form-select" [(ngModel)]="form.changeType">
+          <option value="ADD">Add</option>
+          <option value="REMOVE">Remove</option>
+          <option value="ADJUST">Adjust (set exact qty)</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <input class="form-control" type="number" [(ngModel)]="form.quantity">
+      </div>
+      <div class="col-md-3">
+        <input class="form-control" placeholder="Remarks" [(ngModel)]="form.remarks">
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-primary" (click)="submit()">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive p-2">
+    <table class="table table-hover align-middle">
+      <thead><tr><th>Product</th><th>Stock Qty</th><th></th></tr></thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td>{{ p.name }}</td>
+          <td>{{ p.stockQty }}</td>
+          <td><button class="btn btn-sm btn-outline-secondary" (click)="viewHistory(p.id!)">View History</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card p-3 mt-3" *ngIf="selectedProductId">
+    <h6>Stock History</h6>
+    <table class="table table-sm">
+      <thead><tr><th>Type</th><th>Qty</th><th>Previous</th><th>New</th><th>Remarks</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let h of history">
+          <td>{{ h.changeType }}</td>
+          <td>{{ h.quantity }}</td>
+          <td>{{ h.previousQty }}</td>
+          <td>{{ h.newQty }}</td>
+          <td>{{ h.remarks }}</td>
+          <td>{{ h.createdAt | date:'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
