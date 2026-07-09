@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://oms-backend-production-b448.up.railway.app/api',
-  serverUrl: 'https://oms-backend-production-b448.up.railway.app'
+  apiUrl: 'https://oms-backend-production-d752.up.railway.app/api',
+  serverUrl: 'https://oms-backend-production-d752.up.railway.app'
 };
