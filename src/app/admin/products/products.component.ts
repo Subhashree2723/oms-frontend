@@ -27,29 +27,22 @@ export class ProductsComponent implements OnInit {
   }
 
   save() {
-  this.error = '';
-  const req = this.editingId
-    ? this.productSvc.update(this.editingId, this.form)
-    : this.productSvc.create(this.form);
+    this.error = '';
+    const req = this.editingId
+      ? this.productSvc.update(this.editingId, this.form)
+      : this.productSvc.create(this.form);
 
-  req.subscribe({
-    next: (saved) => {
-      if (this.selectedFile && saved.id) {
-        this.productSvc.uploadImage(saved.id, this.selectedFile).subscribe({
-          next: () => {
-            this.resetForm();
-            this.load();
-          },
-          error: err => this.error = err.error?.message || 'Image upload failed'
-        });
-      } else {
+    req.subscribe({
+      next: (saved) => {
+        if (this.selectedFile && saved.id) {
+          this.productSvc.uploadImage(saved.id, this.selectedFile).subscribe(() => this.load());
+        }
         this.resetForm();
         this.load();
-      }
-    },
-    error: err => this.error = err.error?.message || 'Save failed'
-  });
-}
+      },
+      error: err => this.error = err.error?.message || 'Save failed'
+    });
+  }
 
   edit(p: Product) {
     this.editingId = p.id!;
